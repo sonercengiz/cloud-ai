@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from .serializers import *
 from .models import *
 
-from .scripts.association_rule_mining import recommend
+from .scripts.association_rule_mining import make_recommend
 
 @api_view(['GET'])
 def get_user(request):
@@ -92,13 +92,17 @@ def purchase_list(request):
     userId = int(request.GET.get("userId"))
     purchases = Purchases.objects.filter(userid=userId)
     if purchases:
-        purchases_serializer = PurchasesSerializer(purchases, many=True)
-        return Response(purchases_serializer.data)
+        purchases = Purchases.objects.filter(userid=userId)
+        productIds = [purchase.productid for purchase in purchases]
+        products = Products.objects.filter(id__in = productIds)
+        serializer = ProductsSerializer(products, many=True)
+        return Response(serializer.data, status=200)
     else:
         return Response(status=404)
 @api_view(['GET'])
 def recommend(request):
-    recommendations = recommend(int(request.GET.get("userId")))
-    return Response({
-        "Recommendations": recommendations
-    },status=200)
+    userId = int(request.GET.get("userId"))
+    productIds = make_recommend(userId)
+    products = Products.objects.filter(id__in = productIds)
+    serializer = ProductsSerializer(products, many=True)
+    return Response(serializer.data, status=200)

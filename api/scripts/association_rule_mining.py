@@ -32,7 +32,7 @@ def generate_associations():
             })
     return associations_collection
 
-def recommend(userid):
+def make_recommend(userid):
     PAs = Purchases.objects.filter(userid = userid).values()
     appIds = []
     for pa in PAs:
