@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'numpy',
     'apyori',
+    'psycopg2',
 ]
 
 MIDDLEWARE = [
@@ -78,34 +79,38 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        # String. It must be "mssql".
-        'ENGINE': 'mssql',
 
-        # String. Database name. Required.
+    'default': {
+
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+
         'NAME': 'CloudDB',
 
-        # String. Database user name in "user" format. If not given then MS Integrated Security will be used.
-        'USER': 'cloud',
+        'USER': 'postgres',
 
-        # String. Database user password.
-        'PASSWORD': 'fhF7k8!74',
+        'PASSWORD': 'postgres',
 
-         # String. SQL Server instance in "server\instance" format.
-        'HOST': '207.180.235.216',
+        'HOST': '127.0.0.1',
 
-        # String. Server instance port. An empty string means the default port.
-        'PORT': '1433',
+        'PORT': '5432',
 
-        # Dictionary. Additional database settings.
-        'OPTIONS': {
-            # String. ODBC Driver to use ("ODBC Driver 17 for SQL Server", 
-            # "SQL Server Native Client 11.0", "FreeTDS" etc). 
-            # Default is "ODBC Driver 17 for SQL Server".
-            'driver': 'ODBC Driver 17 for SQL Server',
-        },
-    },
+    }
+
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'mssql',
+#         'NAME': 'CloudDB',
+#         'USER': 'cloud',
+#         'PASSWORD': 'fhF7k8!74',
+#         'HOST': '207.180.235.216',
+#         'PORT': '1433',
+#         'OPTIONS': {
+#             'driver': 'ODBC Driver 17 for SQL Server',
+#         },
+#     },
+# }
 
 
 # Password validation
